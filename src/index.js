@@ -10,7 +10,7 @@ const Head = () => (
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="icon" type="image/png" href={favicon} />
     <link rel="apple-touch-icon" href={favicon} />
-    <title>React from Scratch</title>
+    <title>Toshl Visualisation</title>
   </Helmet>
 )
 
