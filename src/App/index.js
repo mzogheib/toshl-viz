@@ -34,6 +34,9 @@ class App extends Component {
         'Eating Out': randomNumber(),
         'Health & Fitness': randomNumber(),
         Bills: randomNumber(),
+        'Leisure & Recreation': randomNumber(),
+        Misc: randomNumber(),
+        Transport: randomNumber(),
       },
     })
   }
@@ -74,7 +77,7 @@ class App extends Component {
           <InputForm onSubmit={this.setToken} />
         </div>
         <Summary totalSpend={totalSpend} />
-        <Charts />
+        <Charts data={categories} />
       </div>
     )
   }

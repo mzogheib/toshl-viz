@@ -1,2 +1,7 @@
 .charts {
+  display: flex;
+
+  &__chart-title {
+    text-align: center;
+  }
 }
