@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './style.scss'
+import { formatCurrency } from '../../utils'
 
 const Summary = ({ totalSpend }) => {
-  const formatter = new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    minimumFractionDigits: 2,
-  })
   return (
-    <div className="summary">Total Spend: {formatter.format(totalSpend)}</div>
+    <div className="summary">Total Spend: {formatCurrency(totalSpend)}</div>
   )
 }
 

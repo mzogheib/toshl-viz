@@ -12,12 +12,16 @@ class App extends Component {
     super()
     this.state = {
       date: new Date(),
-      categories: {},
+      categories: [],
       apiToken: '',
     }
     this.incrementMonth = this.incrementMonth.bind(this)
     this.decrementMonth = this.decrementMonth.bind(this)
     this.setToken = this.setToken.bind(this)
+  }
+
+  componentDidMount() {
+    this.fetchData()
   }
 
   setToken(value) {
@@ -29,15 +33,15 @@ class App extends Component {
 
   fetchData() {
     this.setState({
-      categories: {
-        Groceries: randomNumber(),
-        'Eating Out': randomNumber(),
-        'Health & Fitness': randomNumber(),
-        Bills: randomNumber(),
-        'Leisure & Recreation': randomNumber(),
-        Misc: randomNumber(),
-        Transport: randomNumber(),
-      },
+      categories: [
+        { label: 'Groceries', value: randomNumber() },
+        { label: 'Eating Out', value: randomNumber() },
+        { label: 'Health & Fitness', value: randomNumber() },
+        { label: 'Bills', value: randomNumber() },
+        { label: 'Leisure & Recreation', value: randomNumber() },
+        { label: 'Misc', value: randomNumber() },
+        { label: 'Transport', value: randomNumber() },
+      ],
     })
   }
 
@@ -63,7 +67,7 @@ class App extends Component {
 
   render() {
     const { date, categories } = this.state
-    const totalSpend = Object.values(categories).reduce((a, b) => a + b, 0)
+    const totalSpend = categories.reduce((total, c) => c.value + total, 0)
     return (
       <div className="app">
         <div className="app__header">
