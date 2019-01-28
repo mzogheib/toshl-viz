@@ -2,24 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './style.scss'
 import D3PieChart from '../D3/Pie'
+import VictoryPieChart from '../Victory/Pie'
 import { formatCurrency, formatPercent } from '../../utils'
 
 const Charts = ({ data }) => {
   const totalSpend = data.reduce((total, c) => c.value + total, 0)
-  const labelFormat = ({ value }) => {
-    const valueLabel = formatCurrency(value)
-    const percentLabel = formatPercent(value / totalSpend)
-    return `${percentLabel} (${valueLabel})`
-  }
+  const labelFormat = ({ value }) =>
+    `${formatCurrency(value)} (${formatPercent(value / totalSpend)})`
 
-  return (
-    <div className="charts">
-      <div className="charts__chart">
-        <div className="charts__chart-title">D3.js</div>
-        <D3PieChart data={data} labelFormat={labelFormat} />
-      </div>
-    </div>
-  )
+  const charts = [
+    { title: 'D3.js', component: D3PieChart },
+    { title: 'Victory', component: VictoryPieChart },
+  ]
+
+  const renderCharts = charts =>
+    charts.map(({ title, component }) => {
+      const Chart = component
+      return (
+        <div key={title} className="charts__chart">
+          <div className="charts__chart-title">{title}</div>
+          <Chart data={data} labelFormat={labelFormat} />
+        </div>
+      )
+    })
+
+  return <div className="charts">{renderCharts(charts)}</div>
 }
 
 export default Charts
