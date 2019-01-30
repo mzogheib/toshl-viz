@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './style.scss'
-import D3PieChart from '../D3/Pie'
-import VictoryPieChart from '../Victory/Pie'
+import D3PieChart from '../VendorCharts/D3/Pie'
+import VictoryPieChart from '../VendorCharts/Victory/Pie'
 import { formatCurrency, formatPercent } from '../../utils'
 
 const Charts = ({ data }) => {
