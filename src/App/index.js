@@ -68,6 +68,8 @@ class App extends Component {
   render() {
     const { date, categories } = this.state
     const totalSpend = categories.reduce((total, c) => c.value + total, 0)
+    const sortedData = categories.sort((a, b) => a.value - b.value)
+
     return (
       <div className="app">
         <div className="app__header">
@@ -81,7 +83,7 @@ class App extends Component {
           <InputForm onSubmit={this.setToken} />
         </div>
         <Summary totalSpend={totalSpend} />
-        <Charts data={categories} />
+        <Charts data={sortedData} />
       </div>
     )
   }
