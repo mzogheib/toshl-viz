@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { pie, arc, interpolateRgb, ascending } from 'd3'
+import { pie, arc, ascending } from 'd3'
 import Slice from './Slice'
 import Label from './Label'
 
 const PIE_INNER_RADIUS = 0
 const PIE_OUTER_RADIUS = 150
 
-const interpolate = interpolateRgb('#C1BCAC', '#214E34')
-
-const Pie = ({ data, labelFormat }) => {
+const Pie = ({ data, labelFormat, colors }) => {
   const height = 400
   const width = 400
 
@@ -25,7 +23,6 @@ const Pie = ({ data, labelFormat }) => {
       outerRadius: PIE_OUTER_RADIUS,
       startAngle: d.startAngle,
       endAngle: d.endAngle,
-      color: interpolate(d.index / (data.length - 1)),
       value: d.data.value,
       label: labelFormatFn(d.data),
     }))
@@ -35,11 +32,16 @@ const Pie = ({ data, labelFormat }) => {
     }))
 
   const slices = sliceParams.map((p, i) => (
-    <Slice key={i} params={p} color={p.color} />
+    <Slice key={i} params={p} colors={colors} />
   ))
 
   const labels = sliceParams.map((p, i) => (
-    <Label key={i} centroid={p.centroid} label={p.label} />
+    <Label
+      key={i}
+      centroid={p.centroid}
+      label={p.label}
+      color={colors.chartText}
+    />
   ))
 
   return (
@@ -59,4 +61,5 @@ export default Pie
 Pie.propTypes = {
   data: PropTypes.array.isRequired,
   labelFormat: PropTypes.func,
+  colors: PropTypes.object.isRequired,
 }

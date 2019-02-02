@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './style.scss'
+import { colors, ColorsContext } from '../contexts/colors'
 import DatePicker from '../components/DatePicker'
 import InputForm from '../components/InputForm'
 import Summary from '../components/Summary'
@@ -71,20 +72,22 @@ class App extends Component {
     const sortedData = categories.sort((a, b) => a.value - b.value)
 
     return (
-      <div className="app">
-        <div className="app__header">
-          <div className="app__header-left">
-            <DatePicker
-              date={date}
-              onPrevDate={this.decrementMonth}
-              onNextDate={this.incrementMonth}
-            />
+      <ColorsContext.Provider value={colors.light}>
+        <div className="app">
+          <div className="app__header">
+            <div className="app__header-left">
+              <DatePicker
+                date={date}
+                onPrevDate={this.decrementMonth}
+                onNextDate={this.incrementMonth}
+              />
+            </div>
+            <InputForm onSubmit={this.setToken} />
           </div>
-          <InputForm onSubmit={this.setToken} />
+          <Summary totalSpend={totalSpend} />
+          <Charts data={sortedData} />
         </div>
-        <Summary totalSpend={totalSpend} />
-        <Charts data={sortedData} />
-      </div>
+      </ColorsContext.Provider>
     )
   }
 }
