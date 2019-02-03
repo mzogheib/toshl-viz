@@ -5,6 +5,7 @@ import DatePicker from '../components/DatePicker'
 import InputForm from '../components/InputForm'
 import Summary from '../components/Summary'
 import Charts from '../components/Charts'
+import { sumBy } from '../utils'
 
 const randomNumber = () => Math.floor(Math.random() * 1000)
 
@@ -68,7 +69,7 @@ class App extends Component {
 
   render() {
     const { date, categories } = this.state
-    const totalSpend = categories.reduce((total, c) => c.value + total, 0)
+    const totalSpend = sumBy(categories, 'value')
     const sortedData = categories.sort((a, b) => a.value - b.value)
 
     return (

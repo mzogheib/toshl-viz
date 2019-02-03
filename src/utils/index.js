@@ -9,4 +9,7 @@ const formatPercent = new Intl.NumberFormat('en-AU', {
   minimumFractionDigits: 0,
 }).format
 
-export { formatCurrency, formatPercent }
+const sumBy = (items, prop) =>
+  items.reduce((total, nextItem) => total + nextItem[prop], 0)
+
+export { formatCurrency, formatPercent, sumBy }

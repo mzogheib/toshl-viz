@@ -5,31 +5,33 @@ import { ColorsContext } from '../../contexts/colors'
 import D3PieChart from '../VendorCharts/D3/Pie'
 import VictoryPieChart from '../VendorCharts/Victory/Pie'
 import GooglePieChart from '../VendorCharts/Google/Pie'
-import { formatCurrency, formatPercent } from '../../utils'
+import { formatCurrency, formatPercent, sumBy } from '../../utils'
+
+const transformGoogleData = items =>
+  [['Category', 'Spend']].concat(items.map(item => [item.category, item.value]))
+const chartsConfig = [
+  { title: 'D3.js', component: D3PieChart },
+  { title: 'Victory', component: VictoryPieChart },
+  {
+    title: 'Google',
+    component: GooglePieChart,
+    dataTransform: transformGoogleData,
+  },
+]
 
 const ChartsComponent = ({ data, colors }) => {
-  const totalSpend = data.reduce((total, c) => c.value + total, 0)
+  const totalSpend = sumBy(data, 'value')
   const labelFormat = ({ value }) =>
     `${formatCurrency(value)} (${formatPercent(value / totalSpend)})`
 
-  const googleData = [['Category', 'Spend']].concat(
-    data.map(item => [item.category, item.value])
-  )
-
-  const charts = [
-    { title: 'D3.js', component: D3PieChart },
-    { title: 'Victory', component: VictoryPieChart },
-    { title: 'Google', component: GooglePieChart, customData: googleData },
-  ]
-
-  const renderCharts = charts =>
-    charts.map(({ title, component, customData }) => {
+  const renderCharts = ({ chartsConfig, data }) =>
+    chartsConfig.map(({ title, component, dataTransform }) => {
       const Chart = component
       return (
         <div key={title} className="charts__chart">
           <div className="charts__chart-title">{title}</div>
           <Chart
-            data={customData || data}
+            data={dataTransform ? dataTransform(data) : data}
             labelFormat={labelFormat}
             colors={colors}
           />
@@ -37,7 +39,7 @@ const ChartsComponent = ({ data, colors }) => {
       )
     })
 
-  return <div className="charts">{renderCharts(charts)}</div>
+  return <div className="charts">{renderCharts({ chartsConfig, data })}</div>
 }
 
 class Charts extends Component {
