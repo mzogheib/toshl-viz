@@ -13,3 +13,9 @@ export const colors = {
 export const ColorsContext = React.createContext(
   colors.light // default value
 )
+
+export const mapContextToProps = Component => props => (
+  <ColorsContext.Consumer>
+    {colors => <Component {...props} colors={colors} />}
+  </ColorsContext.Consumer>
+)

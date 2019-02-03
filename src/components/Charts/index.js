@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import './style.scss'
-import { ColorsContext } from '../../contexts/colors'
+import { mapContextToProps } from '../../contexts/colors'
 import D3PieChart from '../VendorCharts/D3/Pie'
 import VictoryPieChart from '../VendorCharts/Victory/Pie'
 import GooglePieChart from '../VendorCharts/Google/Pie'
@@ -19,7 +19,7 @@ const chartsConfig = [
   },
 ]
 
-const ChartsComponent = ({ data, colors }) => {
+const Charts = ({ data, colors }) => {
   const totalSpend = sumBy(data, 'value')
   const labelFormat = ({ value }) =>
     `${formatCurrency(value)} (${formatPercent(value / totalSpend)})`
@@ -42,21 +42,9 @@ const ChartsComponent = ({ data, colors }) => {
   return <div className="charts">{renderCharts({ chartsConfig, data })}</div>
 }
 
-class Charts extends Component {
-  render() {
-    const colors = this.context
-    const props = {
-      ...this.props,
-      colors,
-    }
-    return <ChartsComponent {...props} />
-  }
-}
-
-export default Charts
+export default mapContextToProps(Charts)
 
 Charts.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
+  colors: PropTypes.object.isRequired,
 }
-
-Charts.contextType = ColorsContext
