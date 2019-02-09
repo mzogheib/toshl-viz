@@ -5,10 +5,13 @@ import { mapContextToProps } from '../../contexts/colors'
 import D3PieChart from '../VendorCharts/D3/Pie'
 import VictoryPieChart from '../VendorCharts/Victory/Pie'
 import GooglePieChart from '../VendorCharts/Google/Pie'
-import { formatCurrency, formatPercent, sumBy } from '../../utils'
+import { formatPercent, sumBy } from '../../utils'
+
+const MIN_LABEL_PERCENTAGE = 0.04
 
 const transformGoogleData = items =>
   [['Category', 'Spend']].concat(items.map(item => [item.category, item.value]))
+
 const chartsConfig = [
   { title: 'D3.js', component: D3PieChart },
   { title: 'Victory', component: VictoryPieChart },
@@ -22,7 +25,9 @@ const chartsConfig = [
 const Charts = ({ data, colors }) => {
   const totalSpend = sumBy(data, 'value')
   const labelFormat = ({ value }) =>
-    `${formatCurrency(value)} (${formatPercent(value / totalSpend)})`
+    value / totalSpend >= MIN_LABEL_PERCENTAGE
+      ? `${formatPercent(value / totalSpend)}`
+      : null
 
   const renderCharts = ({ chartsConfig, data }) =>
     chartsConfig.map(({ title, component, dataTransform }) => {

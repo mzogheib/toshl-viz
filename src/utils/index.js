@@ -6,7 +6,7 @@ const formatCurrency = new Intl.NumberFormat('en-AU', {
 
 const formatPercent = new Intl.NumberFormat('en-AU', {
   style: 'percent',
-  minimumFractionDigits: 0,
+  minimumFractionDigits: 1,
 }).format
 
 const sumBy = (items, prop) =>

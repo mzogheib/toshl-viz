@@ -9,6 +9,7 @@ const Pie = ({ data, labelFormat, colors }) => (
     y="value"
     sortKey="value"
     labelComponent={<VictoryLabel text={labelFormat} />}
+    labelRadius={110}
     style={{
       data: {
         fill: colors.pieFill,

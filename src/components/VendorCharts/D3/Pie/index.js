@@ -27,7 +27,10 @@ const Pie = ({ data, labelFormat, colors }) => {
       label: labelFormatFn(d.data),
     }))
     .map(params => ({
-      centroid: arc().centroid(params),
+      centroid: arc().centroid({
+        ...params,
+        innerRadius: params.outerRadius * (1 / 2),
+      }),
       ...params,
     }))
 
